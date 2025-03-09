@@ -1,0 +1,10 @@
+{
+    "root": "/home/santos/workspace/python/pdf-ia",
+    "venv": "./.env",
+    "venvPath": "./",
+    "python": "./.env/bin/python",
+    "typeCheckingMode": "basic",
+    "exclude": [
+        "**/__pycache__"
+    ]
+}
