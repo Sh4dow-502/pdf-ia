@@ -27,16 +27,20 @@ class UserQuestionBox(rx.Component):
 
 
 class AnswerBox(rx.Component):
-
-    def __init__(self, text: str):
+    def __init__(self, process_text, answer_text):
         super().__init__()
-        self.text = text
+        self.process_text = process_text
+        self.answer_text = answer_text
 
         self.children = [
             rx.box(
                 rx.flex(
                     rx.box(
-                        rx.text(self.text),
+                        rx.text(
+                            self.process_text,
+                            rx.text(self.answer_text, color="white"),
+                            color_scheme="gray",
+                        ),
                         text_align="left",
                         max_width="100%",
                     )
@@ -51,22 +55,24 @@ class AnswerBox(rx.Component):
 class ChatComponent:
     user_box = UserQuestionBox
     answer_box = AnswerBox
-
     chats = ChatState.chats
+
+    def show_boxs(self):
+        return rx.foreach(
+            ChatState.chats,
+            lambda data: rx.vstack(
+                self.user_box(data[0]),
+                self.answer_box(data[1], data[2]),
+                width="100%",
+            ),
+        )
 
     def show(self):
         return rx.scroll_area(
             rx.box(
                 rx.center(
                     rx.box(
-                        rx.foreach(
-                            ChatState.chats,
-                            lambda chat: rx.vstack(
-                                self.user_box(chat[0]),
-                                self.answer_box(chat[1]),
-                                width="100%",
-                            ),
-                        ),
+                        self.show_boxs(),
                         width="55%",
                         padding="20px 0px 20px 0",
                     )

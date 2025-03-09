@@ -5,12 +5,14 @@ from states import ChatState
 class StateInput(rx.State):
     enable_send: bool = False
     length_text: int = 0
+    value_input: str = ""
 
     @rx.event
     def submit_form(self, form_data: dict):
         text = form_data["input_chat"]
-        data = (text, "La respuesta tu pregunta")
-        return ChatState.add_chat(data)
+        self.value_input = ""
+        self.length_text = 0
+        return ChatState.add_chat(text)
 
     @rx.event
     def change_text(self, text):
@@ -18,6 +20,7 @@ class StateInput(rx.State):
             self.enable_send = True
         else:
             self.enable_send = False
+        self.value_input = text
         self.length_text = len(text)
 
 
@@ -45,6 +48,7 @@ class InputBoxComponent:
                                 width="100%",
                                 enter_key_submit=True,
                                 on_change=StateInput.change_text,
+                                value=StateInput.value_input,
                             ),
                             rx.hstack(
                                 rx.text(

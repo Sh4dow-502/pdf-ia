@@ -35,7 +35,7 @@ class ToolsComponent:
                                 border_radius="20px",
                             ),
                             rx.foreach(
-                                ["Optimizar", "Chat", "Convertir", "Other", "Other"],
+                                ["Optimizar", "Chat", "Convertir", "Other"],
                                 lambda txt: rx.card(
                                     rx.vstack(
                                         rx.text(txt, font_family="Poppins Bold"),
